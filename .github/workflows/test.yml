@@ -24,6 +24,11 @@ jobs:
         with:
           node-version: '18' # Use the same Node.js version as your project
 
+      - name: Set Environment Variables
+        run: |
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+
       # Step 3: Install dependencies
       - name: Install Dependencies
         run: npm install
