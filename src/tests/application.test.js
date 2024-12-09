@@ -28,6 +28,8 @@ describe('Application Endpoint Tests', () => {
         const res = await request(app)
             .get('/api/applications')
             .set('Authorization', `Bearer ${token}`);
+
+        console.log(res.body);
         
         expect(res.statusCode).toEqual(200);
         expect(res.body).toBeInstanceOf(Array);
@@ -39,6 +41,8 @@ describe('Application Endpoint Tests', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({ role: 'Backend Developer', company: 'TechCorp', status: 'Applied' });
         
+        console.log(res.body);
+
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty('_id');
         
@@ -50,6 +54,8 @@ describe('Application Endpoint Tests', () => {
         .get(`/api/applications/${jobId}`)
         .set('Authorization', `Bearer ${token}`);
         
+        console.log(res.body);
+
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('_id');
     });
@@ -59,6 +65,8 @@ describe('Application Endpoint Tests', () => {
         .put(`/api/applications/${jobId}`)
         .set('Authorization', `Bearer ${token}`)
         .send({ status: 'Interviewing' });
+        
+        console.log(res.body);
         
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('_id');
