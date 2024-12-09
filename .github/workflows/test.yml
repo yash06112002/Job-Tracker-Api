@@ -39,10 +39,31 @@ jobs:
       - name: Run Tests
         run: npm run test
 
-      # Step 5: Upload test results (optional)
-      - name: Upload Test Results
-        if: failure()
-        uses: actions/upload-artifact@v3
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          name: test-results
-          path: test-results.txt
+          node-version: '18' # Use the same Node.js version as your project
+      - name: Set Environment Variables
+        run: echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+
+      - name: Set Environment Variables
+        run: |
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 4: Run tests
+      - name: Run ESLint
+        run: npm run lint 
