@@ -15,7 +15,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Install Docker on VM
+      # Step 2: Google Cloud Authentication
+      - name: Google Cloud Auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      # Step 3: Set up Cloud SDK
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      # Step 4: Install Docker on VM
       - name: Install Docker on VM
         run: |
           gcloud compute ssh instance-job-tracker --zone "asia-south1-c" --command "
@@ -24,14 +35,14 @@ jobs:
             sudo systemctl enable --now docker
           "
 
-      # Step 3: Log in to Docker Hub
+      # Step 5: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Step 4: Build and Push Docker Image
+      # Step 6: Build and Push Docker Image
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
@@ -40,7 +51,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/job-application-tracker:latest
 
-      # Step 5: Deploy Docker Container to VM
+      # Step 7: Deploy Docker Container to VM
       - name: Deploy Docker container to VM
         run: |
           gcloud compute ssh instance-job-tracker --zone "asia-south1-c" --command "
