@@ -63,3 +63,4 @@ jobs:
                 -e PORT=${{ secrets.PORT }} \
                 -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
                 ${{ secrets.DOCKER_USERNAME }}/job-application-tracker:latest
+            "
