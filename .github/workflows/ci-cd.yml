@@ -43,6 +43,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       # Step 6: Build and Push Docker Image
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
