@@ -56,11 +56,11 @@ jobs:
       # Step 7: Deploy Docker Container to VM
       - name: Deploy Docker container to VM
         run: |
-            gcloud compute ssh instance-job-tracker --zone "asia-south1-c" --command "
+            gcloud compute ssh instance-job-tracker --zone "asia-south1-c" --command '
             docker run -d --name job-application-tracker \
-                -p 80:5000 \
-                -e MONGO_URI=${{ secrets.MONGO_URI }} \
-                -e PORT=${{ secrets.PORT }} \
-                -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-                ${{ secrets.DOCKER_USERNAME }}/job-application-tracker:latest
-            "
+                -p 80:3000 \
+                -e MONGO_URI="${{ secrets.MONGO_URI }}" \
+                -e PORT="${{ secrets.PORT }}" \
+                -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+                '"${{ secrets.DOCKER_USERNAME }}/job-application-tracker:latest"'
+            '
